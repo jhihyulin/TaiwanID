@@ -69,6 +69,14 @@ class TaiwanID:
         NATIVE = "Native"
         FOREIGN = "Foreign"
 
+    class Naturalization(Enum):
+        NATIONAL = "National"
+        NATIONAL_FORMERLY_FOREIGN = "National(naturalization), formerly foreign"
+        NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION = "Nationals(naturalization), formerly without household registration"
+        NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT = "Nationals(naturalization), formerly Hong Kong or Macao resident"
+        NATIONAL_FORMERLY_CHINA_RESIDENT = "Nationals(naturalization), formerly China resident"
+        NON_NATIONAL = "Non-national"
+
     class ValidateStatus(Enum):
         SUCCESS = "Success"
         LENGTH_ERROR = "Length error"
@@ -132,8 +140,33 @@ class TaiwanID:
             return self.Citizenship.FOREIGN
         raise ValueError
 
-    def info(self):
+    def get_naturalization(self, id: str) -> Naturalization:
+        '''
+        Check if the ID number is a naturalization
+        \nid: ID number
+        '''
+        if int(id[1]) != 1 and int(id[1]) != 2:
+            return self.Naturalization.NON_NATIONAL
+        if int(id[2]) >= 0 and int(id[2]) <= 5:
+            return self.Naturalization.NATIONAL
+        if int(id[2]) == 6:
+            return self.Naturalization.NATIONAL_FORMERLY_FOREIGN
+        if int(id[2]) == 7:
+            return self.Naturalization.NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION
+        if int(id[2]) == 8:
+            return self.Naturalization.NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT
+        if int(id[2]) == 9:
+            return self.Naturalization.NATIONAL_FORMERLY_CHINA_RESIDENT
+        raise ValueError
+
+    def get_info(self):
+        '''
+        Get the information of the ID number
+        '''
         raise NotImplementedError
 
     def generate(self):
+        '''
+        Generate a random ID number
+        '''
         raise NotImplementedError
