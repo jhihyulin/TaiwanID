@@ -77,9 +77,31 @@ class TaiwanID:
                 codes.extend(g.codes)
             return codes
 
-    class Citizenship(Enum):
-        NATIVE = 'Native'
-        FOREIGN = 'Foreign'
+    class Citizenships:
+        class Citizenship:
+            def __init__(self, name: str, codes: list[int]):
+                self.name: str = name
+                self.codes: list[int] = codes
+
+        class Native(Citizenship):
+            def __init__(self):
+                super().__init__('Native', [1, 2])
+
+        class Foreign(Citizenship):
+            def __init__(self):
+                super().__init__('Foreign', [8, 9])
+
+        def get_list(self) -> list[Citizenship]:
+            return [
+                self.Native(),
+                self.Foreign()
+            ]
+
+        def get_code_list(self) -> list[int]:
+            codes = []
+            for c in self.get_list():
+                codes.extend(c.codes)
+            return codes
 
     class Naturalization(Enum):
         NATIONAL = 'National'
@@ -141,15 +163,15 @@ class TaiwanID:
             return self.Genders.Male
         raise ValueError
 
-    def get_citizenship(self, id: str) -> Citizenship:
+    def get_citizenship(self, id: str) -> Citizenships.Citizenship:
         '''
         Get the citizenship of the ID number
         \nid: ID number
         '''
-        if int(id[1]) == 1 or int(id[1]) == 2:
-            return self.Citizenship.NATIVE
-        if int(id[1]) == 8 or int(id[1]) == 9:
-            return self.Citizenship.FOREIGN
+        if int(id[1]) in self.Citizenships().Native().codes:
+            return self.Citizenships.Native
+        if int(id[1]) in self.Citizenships().Foreign().codes:
+            return self.Citizenships.Foreign
         raise ValueError
 
     def get_naturalization(self, id: str) -> Naturalization:

@@ -49,12 +49,12 @@ class TestTaiwanID(unittest.TestCase):
             self.taiwan_id.get_gender('A323456789')
 
     def test_get_citizenship_native(self):
-        self.assertEqual(self.taiwan_id.get_citizenship('A123456789'), self.taiwan_id.Citizenship.NATIVE)
-        self.assertEqual(self.taiwan_id.get_citizenship('A223456789'), self.taiwan_id.Citizenship.NATIVE)
+        self.assertEqual(self.taiwan_id.get_citizenship('A123456789'), self.taiwan_id.Citizenships.Native)
+        self.assertEqual(self.taiwan_id.get_citizenship('A223456789'), self.taiwan_id.Citizenships.Native)
 
     def test_get_citizenship_foreign(self):
-        self.assertEqual(self.taiwan_id.get_citizenship('A823456789'), self.taiwan_id.Citizenship.FOREIGN)
-        self.assertEqual(self.taiwan_id.get_citizenship('A923456789'), self.taiwan_id.Citizenship.FOREIGN)
+        self.assertEqual(self.taiwan_id.get_citizenship('A823456789'), self.taiwan_id.Citizenships.Foreign)
+        self.assertEqual(self.taiwan_id.get_citizenship('A923456789'), self.taiwan_id.Citizenships.Foreign)
 
     def test_get_citizenship_value_error(self):
         with self.assertRaises(ValueError):
