@@ -66,22 +66,22 @@ class TaiwanID:
             self.name = name
 
     class Citizenship(Enum):
-        NATIVE = "Native"
-        FOREIGN = "Foreign"
+        NATIVE = 'Native'
+        FOREIGN = 'Foreign'
 
     class Naturalization(Enum):
-        NATIONAL = "National"
-        NATIONAL_FORMERLY_FOREIGN = "National(naturalization), formerly foreign"
-        NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION = "Nationals(naturalization), formerly without household registration"
-        NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT = "Nationals(naturalization), formerly Hong Kong or Macao resident"
-        NATIONAL_FORMERLY_CHINA_RESIDENT = "Nationals(naturalization), formerly China resident"
-        NON_NATIONAL = "Non-national"
+        NATIONAL = 'National'
+        NATIONAL_FORMERLY_FOREIGN = 'National(naturalization), formerly foreign'
+        NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION = 'Nationals(naturalization), formerly without household registration'
+        NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT = 'Nationals(naturalization), formerly Hong Kong or Macao resident'
+        NATIONAL_FORMERLY_CHINA_RESIDENT = 'Nationals(naturalization), formerly China resident'
+        NON_NATIONAL = 'Non-national'
 
     class ValidateStatus(Enum):
-        SUCCESS = "Success"
-        LENGTH_ERROR = "Length error"
-        FORMAT_ERROR = "Format error"
-        CHECK_ERROR = "Check error"
+        SUCCESS = 'Success'
+        LENGTH_ERROR = 'Length error'
+        FORMAT_ERROR = 'Format error'
+        CHECK_ERROR = 'Check error'
 
     def validate(self, id: str) -> bool:
         '''
