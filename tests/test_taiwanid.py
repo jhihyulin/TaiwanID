@@ -33,12 +33,16 @@ class TestTaiwanID(unittest.TestCase):
             self.taiwan_id.get_city('.123456789')
 
     def test_get_gender_female(self):
-        self.assertEqual(self.taiwan_id.get_gender('A223456789').name, 'Female')
-        self.assertEqual(self.taiwan_id.get_gender('A923456789').name, 'Female')
+        self.assertEqual(self.taiwan_id.get_gender('A223456789'), self.taiwan_id.Genders.Female)
+        self.assertEqual(type(self.taiwan_id.get_gender('A223456789')), type(self.taiwan_id.Genders.Gender))
+        self.assertEqual(self.taiwan_id.get_gender('A923456789'), self.taiwan_id.Genders.Female)
+        self.assertEqual(type(self.taiwan_id.get_gender('A923456789')), type(self.taiwan_id.Genders.Gender))
 
     def test_get_gender_male(self):
-        self.assertEqual(self.taiwan_id.get_gender('A123456789').name, 'Male')
-        self.assertEqual(self.taiwan_id.get_gender('A823456789').name, 'Male')
+        self.assertEqual(self.taiwan_id.get_gender('A123456789'), self.taiwan_id.Genders.Male)
+        self.assertEqual(type(self.taiwan_id.get_gender('A123456789')), type(self.taiwan_id.Genders.Gender))
+        self.assertEqual(self.taiwan_id.get_gender('A823456789'), self.taiwan_id.Genders.Male)
+        self.assertEqual(type(self.taiwan_id.get_gender('A823456789')), type(self.taiwan_id.Genders.Gender))
 
     def test_get_gender_value_error(self):
         with self.assertRaises(ValueError):

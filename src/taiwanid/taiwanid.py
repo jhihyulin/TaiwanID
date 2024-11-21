@@ -36,10 +36,6 @@ class TaiwanID:
             self.City('Y', 31, '陽明山管理局', 'TW-TPE'),
             self.City('Z', 33, '連江縣', 'TW-LIE')
         ]
-        self.gender = [
-            self.Gender(0, 'Female'),
-            self.Gender(1, 'Male')
-        ]
 
     class City:
         '''
@@ -55,15 +51,31 @@ class TaiwanID:
             self.name = name
             self.code = code
 
-    class Gender:
-        '''
-        Gender class
-        \ncode: Index of the gender
-        \nname: Name of the gender
-        '''
-        def __init__(self, index, name):
-            self.code = index
-            self.name = name
+    class Genders:
+        class Gender:
+            def __init__(self, name: str, codes: list[int]):
+                self.name: str = name
+                self.codes: list[int] = codes
+
+        class Male(Gender):
+            def __init__(self):
+                super().__init__('Male', [1, 8])
+
+        class Female(Gender):
+            def __init__(self):
+                super().__init__('Female', [2, 9])
+
+        def get_list(self) -> list[Gender]:
+            return [
+                self.Male(),
+                self.Female()
+            ]
+
+        def get_code_list(self) -> list[int]:
+            codes = []
+            for g in self.get_list():
+                codes.extend(g.codes)
+            return codes
 
     class Citizenship(Enum):
         NATIVE = 'Native'
@@ -98,7 +110,7 @@ class TaiwanID:
         if not id[1:].isdigit():
             return self.ValidateStatus.FORMAT_ERROR
         # Check gender
-        if int(id[1]) not in [g.code for g in self.gender]:
+        if int(id[1]) not in self.Genders().get_code_list():
             return self.ValidateStatus.FORMAT_ERROR
         # Check check code
         city_weight = [c.weight for c in self.city if c.id_num_prefix == id[0]][0]
@@ -118,15 +130,15 @@ class TaiwanID:
         '''
         return [c for c in self.city if c.id_num_prefix == id[0]][0]
 
-    def get_gender(self, id: str) -> Gender:
+    def get_gender(self, id: str) -> Genders.Gender:
         '''
         Get the gender of the ID number
         \nid: ID number
         '''
         if int(id[1]) == 2 or int(id[1]) == 9:
-            return self.gender[0]
+            return self.Genders.Female
         if int(id[1]) == 1 or int(id[1]) == 8:
-            return self.gender[1]
+            return self.Genders.Male
         raise ValueError
 
     def get_citizenship(self, id: str) -> Citizenship:
