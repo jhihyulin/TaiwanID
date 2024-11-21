@@ -103,13 +103,37 @@ class TaiwanID:
                 codes.extend(c.codes)
             return codes
 
-    class Naturalization(Enum):
-        NATIONAL = 'National'
-        NATIONAL_FORMERLY_FOREIGN = 'National(naturalization), formerly foreign'
-        NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION = 'Nationals(naturalization), formerly without household registration'
-        NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT = 'Nationals(naturalization), formerly Hong Kong or Macao resident'
-        NATIONAL_FORMERLY_CHINA_RESIDENT = 'Nationals(naturalization), formerly China resident'
-        NON_NATIONAL = 'Non-national'
+    class Naturalizations:
+        class Naturalization:
+            def __init__(self, name: str, description: str, codes: list[int], national: bool):
+                self.name: str = name
+                self.description: str = description
+                self.codes: list[int] = codes
+                self.national: bool = national
+
+        class National(Naturalization):
+            def __init__(self):
+                super().__init__('National', 'Born in Taiwan', [0, 1, 2, 3, 4, 5], True)
+
+        class NationalFormerlyForeign(Naturalization):
+            def __init__(self):
+                super().__init__('National(naturalization)', 'formerly foreign', [6], True)
+
+        class NationalFormerlyWithoutHouseholdRegistration(Naturalization):
+            def __init__(self):
+                super().__init__('Nationals(naturalization)', 'formerly without household registration', [7], True)
+
+        class NationalFormerlyHongKongOrMacaoResident(Naturalization):
+            def __init__(self):
+                super().__init__('Nationals(naturalization)', 'formerly Hong Kong or Macao resident', [8], True)
+
+        class NationalFormerlyChinaResident(Naturalization):
+            def __init__(self):
+                super().__init__('Nationals(naturalization)', 'formerly China resident', [9], True)
+
+        class NonNational(Naturalization):
+            def __init__(self):
+                super().__init__('Non-national', '', [], False)
 
     class ValidateStatus(Enum):
         SUCCESS = 'Success'
@@ -174,23 +198,23 @@ class TaiwanID:
             return self.Citizenships.Foreign
         raise ValueError
 
-    def get_naturalization(self, id: str) -> Naturalization:
+    def get_naturalization(self, id: str) -> Naturalizations.Naturalization:
         '''
         Check if the ID number is a naturalization
         \nid: ID number
         '''
         if int(id[1]) != 1 and int(id[1]) != 2:
-            return self.Naturalization.NON_NATIONAL
+            return self.Naturalizations.NonNational
         if int(id[2]) >= 0 and int(id[2]) <= 5:
-            return self.Naturalization.NATIONAL
+            return self.Naturalizations.National
         if int(id[2]) == 6:
-            return self.Naturalization.NATIONAL_FORMERLY_FOREIGN
+            return self.Naturalizations.NationalFormerlyForeign
         if int(id[2]) == 7:
-            return self.Naturalization.NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION
+            return self.Naturalizations.NationalFormerlyWithoutHouseholdRegistration
         if int(id[2]) == 8:
-            return self.Naturalization.NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT
+            return self.Naturalizations.NationalFormerlyHongKongOrMacaoResident
         if int(id[2]) == 9:
-            return self.Naturalization.NATIONAL_FORMERLY_CHINA_RESIDENT
+            return self.Naturalizations.NationalFormerlyChinaResident
         raise ValueError
 
     def get_info(self):

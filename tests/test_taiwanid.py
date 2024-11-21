@@ -61,28 +61,28 @@ class TestTaiwanID(unittest.TestCase):
             self.taiwan_id.get_citizenship('A723456789')
 
     def test_get_naturalization_national(self):
-        self.assertEqual(self.taiwan_id.get_naturalization('A123456789'), self.taiwan_id.Naturalization.NATIONAL)
-        self.assertEqual(self.taiwan_id.get_naturalization('A223456789'), self.taiwan_id.Naturalization.NATIONAL)
+        self.assertEqual(self.taiwan_id.get_naturalization('A123456789'), self.taiwan_id.Naturalizations.National)
+        self.assertEqual(self.taiwan_id.get_naturalization('A223456789'), self.taiwan_id.Naturalizations.National)
 
     def test_get_naturalization_formerly_foreign(self):
-        self.assertEqual(self.taiwan_id.get_naturalization('A163456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_FOREIGN)
-        self.assertEqual(self.taiwan_id.get_naturalization('A263456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_FOREIGN)
+        self.assertEqual(self.taiwan_id.get_naturalization('A163456789'), self.taiwan_id.Naturalizations.NationalFormerlyForeign)
+        self.assertEqual(self.taiwan_id.get_naturalization('A263456789'), self.taiwan_id.Naturalizations.NationalFormerlyForeign)
 
     def test_get_naturalization_formerly_without_household_registration(self):
-        self.assertEqual(self.taiwan_id.get_naturalization('A173456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION)
-        self.assertEqual(self.taiwan_id.get_naturalization('A273456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_WITHOUT_HOUSEHOLD_REGISTRATION)
+        self.assertEqual(self.taiwan_id.get_naturalization('A173456789'), self.taiwan_id.Naturalizations.NationalFormerlyWithoutHouseholdRegistration)
+        self.assertEqual(self.taiwan_id.get_naturalization('A273456789'), self.taiwan_id.Naturalizations.NationalFormerlyWithoutHouseholdRegistration)
 
     def test_get_naturalization_formerly_hongkong_or_macao_resident(self):
-        self.assertEqual(self.taiwan_id.get_naturalization('A183456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT)
-        self.assertEqual(self.taiwan_id.get_naturalization('A283456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_HONGKONG_OR_MACAO_RESIDENT)
+        self.assertEqual(self.taiwan_id.get_naturalization('A183456789'), self.taiwan_id.Naturalizations.NationalFormerlyHongKongOrMacaoResident)
+        self.assertEqual(self.taiwan_id.get_naturalization('A283456789'), self.taiwan_id.Naturalizations.NationalFormerlyHongKongOrMacaoResident)
 
     def test_get_naturalization_formerly_china_resident(self):
-        self.assertEqual(self.taiwan_id.get_naturalization('A193456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_CHINA_RESIDENT)
-        self.assertEqual(self.taiwan_id.get_naturalization('A293456789'), self.taiwan_id.Naturalization.NATIONAL_FORMERLY_CHINA_RESIDENT)
+        self.assertEqual(self.taiwan_id.get_naturalization('A193456789'), self.taiwan_id.Naturalizations.NationalFormerlyChinaResident)
+        self.assertEqual(self.taiwan_id.get_naturalization('A293456789'), self.taiwan_id.Naturalizations.NationalFormerlyChinaResident)
 
     def test_get_naturalization_non_national(self):
-        self.assertEqual(self.taiwan_id.get_naturalization('A823456789'), self.taiwan_id.Naturalization.NON_NATIONAL)
-        self.assertEqual(self.taiwan_id.get_naturalization('A923456789'), self.taiwan_id.Naturalization.NON_NATIONAL)
+        self.assertEqual(self.taiwan_id.get_naturalization('A823456789'), self.taiwan_id.Naturalizations.NonNational)
+        self.assertEqual(self.taiwan_id.get_naturalization('A923456789'), self.taiwan_id.Naturalizations.NonNational)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
