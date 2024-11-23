@@ -229,6 +229,7 @@ class TaiwanID:
     def get_info(self, id: str) -> IDInfo:
         '''
         Get the information of the ID number
+        \nid: ID number
         '''
         id_info = self.IDInfo(id)
         id_info.validate = self.validate(id_info.id)
