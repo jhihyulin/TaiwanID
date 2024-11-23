@@ -141,7 +141,7 @@ class TaiwanID:
         FORMAT_ERROR = 'Format error'
         CHECK_ERROR = 'Check error'
 
-    def validate(self, id: str) -> bool:
+    def validate(self, id: str) -> ValidateStatus:
         '''
         Validate the ID number
         \nid: ID number
