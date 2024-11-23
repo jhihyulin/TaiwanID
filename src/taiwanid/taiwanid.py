@@ -217,11 +217,28 @@ class TaiwanID:
             return self.Naturalizations.NationalFormerlyChinaResident
         raise ValueError
 
-    def get_info(self):
+    class IDInfo:
+        def __init__(self, id: str):
+            self.id: str = id
+            self.validate: TaiwanID.ValidateStatus = None
+            self.city: TaiwanID.City = None
+            self.gender: TaiwanID.Genders = None
+            self.citizenship: TaiwanID.Citizenships = None
+            self.naturalization: TaiwanID.Naturalizations = None
+
+    def get_info(self, id: str) -> IDInfo:
         '''
         Get the information of the ID number
         '''
-        raise NotImplementedError
+        id_info = self.IDInfo(id)
+        id_info.validate = self.validate(id_info.id)
+        if id_info.validate != self.ValidateStatus.SUCCESS:
+            return id_info
+        id_info.city = self.get_city(id_info.id)
+        id_info.gender = self.get_gender(id_info.id)
+        id_info.citizenship = self.get_citizenship(id_info.id)
+        id_info.naturalization = self.get_naturalization(id_info.id)
+        return id_info
 
     def generate(self):
         '''

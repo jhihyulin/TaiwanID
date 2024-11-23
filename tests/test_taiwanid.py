@@ -84,5 +84,38 @@ class TestTaiwanID(unittest.TestCase):
         self.assertEqual(self.taiwan_id.get_naturalization('A823456789'), self.taiwan_id.Naturalizations.NonNational)
         self.assertEqual(self.taiwan_id.get_naturalization('A923456789'), self.taiwan_id.Naturalizations.NonNational)
 
+    def test_get_info_success_A_male_native_national(self):
+        id_info = self.taiwan_id.get_info('A123456789')
+        self.assertEqual(id_info.validate, self.taiwan_id.ValidateStatus.SUCCESS)
+        self.assertEqual(id_info.city.name, '臺北市')
+        self.assertEqual(id_info.gender, self.taiwan_id.Genders.Male)
+        self.assertEqual(id_info.citizenship, self.taiwan_id.Citizenships.Native)
+        self.assertEqual(id_info.naturalization, self.taiwan_id.Naturalizations.National)
+
+    def test_get_info_success_A_male_native_national_formerly_foreign(self):
+        id_info = self.taiwan_id.get_info('A163456781')
+        self.assertEqual(id_info.validate, self.taiwan_id.ValidateStatus.SUCCESS)
+        self.assertEqual(id_info.city.name, '臺北市')
+        self.assertEqual(id_info.gender, self.taiwan_id.Genders.Male)
+        self.assertEqual(id_info.citizenship, self.taiwan_id.Citizenships.Native)
+        self.assertEqual(id_info.naturalization, self.taiwan_id.Naturalizations.NationalFormerlyForeign)
+
+    def test_get_info_success_A_male_foreign_non_national(self):
+        id_info = self.taiwan_id.get_info('A823456783')
+        self.assertEqual(id_info.validate, self.taiwan_id.ValidateStatus.SUCCESS)
+        self.assertEqual(id_info.city.name, '臺北市')
+        self.assertEqual(id_info.gender, self.taiwan_id.Genders.Male)
+        self.assertEqual(id_info.citizenship, self.taiwan_id.Citizenships.Foreign)
+        self.assertEqual(id_info.naturalization, self.taiwan_id.Naturalizations.NonNational)
+
+    def test_get_info_format_error(self):
+        id_info = self.taiwan_id.get_info('0123456789')
+        self.assertEqual(id_info.validate, self.taiwan_id.ValidateStatus.FORMAT_ERROR)
+        self.assertEqual(id_info.city, None)
+        self.assertEqual(id_info.gender, None)
+        self.assertEqual(id_info.citizenship, None)
+        self.assertEqual(id_info.naturalization, None)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)
