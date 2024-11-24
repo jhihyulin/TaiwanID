@@ -135,6 +135,19 @@ class TaiwanID:
             def __init__(self):
                 super().__init__('Non-national', '', [], False)
 
+    class IDTypes:
+        class IDType:
+            def __init__(self, name: str):
+                self.name: str = name
+
+        class NationalID(IDType):
+            def __init__(self):
+                super().__init__('National ID')
+
+        class ResidentCertificate(IDType):
+            def __init__(self):
+                super().__init__('Resident Certificate')
+
     class ValidateStatus(Enum):
         SUCCESS = 'Success'
         LENGTH_ERROR = 'Length error'
@@ -217,10 +230,22 @@ class TaiwanID:
             return self.Naturalizations.NationalFormerlyChinaResident
         raise ValueError
 
+    def get_id_type(self, id: str) -> IDTypes.IDType:
+        '''
+        Get the type of the ID number
+        \nid: ID number
+        '''
+        if int(id[1]) in self.Citizenships().Native().codes:
+            return self.IDTypes.NationalID
+        if int(id[1]) in self.Citizenships().Foreign().codes:
+            return self.IDTypes.ResidentCertificate
+        raise ValueError
+
     class IDInfo:
         def __init__(self, id: str):
             self.id: str = id
             self.validate: TaiwanID.ValidateStatus = None
+            self.id_type: TaiwanID.IDTypes = None
             self.city: TaiwanID.City = None
             self.gender: TaiwanID.Genders = None
             self.citizenship: TaiwanID.Citizenships = None
@@ -235,6 +260,7 @@ class TaiwanID:
         id_info.validate = self.validate(id_info.id)
         if id_info.validate != self.ValidateStatus.SUCCESS:
             return id_info
+        id_info.id_type = self.get_id_type(id_info.id)
         id_info.city = self.get_city(id_info.id)
         id_info.gender = self.get_gender(id_info.id)
         id_info.citizenship = self.get_citizenship(id_info.id)
