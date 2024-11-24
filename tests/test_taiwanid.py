@@ -120,6 +120,9 @@ class TestTaiwanID(unittest.TestCase):
         self.assertEqual(id_info.citizenship, None)
         self.assertEqual(id_info.naturalization, None)
 
+    def test_generate(self):
+        for _ in range(100):
+            self.assertEqual(self.taiwan_id.validate(self.taiwan_id.generate()), self.taiwan_id.ValidateStatus.SUCCESS)
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

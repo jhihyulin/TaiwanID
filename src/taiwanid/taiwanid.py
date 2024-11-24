@@ -1,4 +1,5 @@
 from enum import Enum
+import random
 
 
 class TaiwanID:
@@ -137,6 +138,16 @@ class TaiwanID:
             def __init__(self):
                 super().__init__(5, 'Non-national', '', [], False)
 
+        def get_list(self) -> list[Naturalization]:
+            return [
+                self.National(),
+                self.NationalFormerlyForeign(),
+                self.NationalFormerlyWithoutHouseholdRegistration(),
+                self.NationalFormerlyHongKongOrMacaoResident(),
+                self.NationalFormerlyChinaResident(),
+                self.NonNational()
+            ]
+
     class IDTypes:
         class IDType:
             def __init__(self, index: int, name: str):
@@ -150,6 +161,12 @@ class TaiwanID:
         class ResidentCertificate(IDType):
             def __init__(self):
                 super().__init__(1, 'Resident Certificate')
+
+        def get_list(self) -> list[IDType]:
+            return [
+                self.NationalID(),
+                self.ResidentCertificate()
+            ]
 
     class ValidateStatus(Enum):
         SUCCESS = 'Success'
@@ -248,11 +265,11 @@ class TaiwanID:
         def __init__(self, id: str):
             self.id: str = id
             self.validate: TaiwanID.ValidateStatus = None
-            self.id_type: TaiwanID.IDTypes = None
+            self.id_type: TaiwanID.IDTypes.IDType = None
             self.city: TaiwanID.City = None
-            self.gender: TaiwanID.Genders = None
-            self.citizenship: TaiwanID.Citizenships = None
-            self.naturalization: TaiwanID.Naturalizations = None
+            self.gender: TaiwanID.Genders.Gender = None
+            self.citizenship: TaiwanID.Citizenships.Citizenship = None
+            self.naturalization: TaiwanID.Naturalizations.Naturalization = None
 
     def get_info(self, id: str) -> IDInfo:
         '''
@@ -270,8 +287,42 @@ class TaiwanID:
         id_info.naturalization = self.get_naturalization(id_info.id)
         return id_info
 
-    def generate(self):
+    def generate(self, city: City = None, gender: Genders.Gender = None, citizenship: Citizenships.Citizenship = None, naturalization: Naturalizations.Naturalization = None) -> str:
         '''
         Generate a random ID number
+        \ncity: City of the ID number
+        \ngender: Gender of the ID number
+        \ncitizenship: Citizenship of the ID number
+        \nnaturalization: Naturalization of the ID number
         '''
-        raise NotImplementedError
+        id_result = ''
+        check_sum = 0
+        # Add city
+        if city is None:
+            city = random.choice(self.city)
+        id_result += city.id_num_prefix
+        check_sum += (city.weight // 10) + (city.weight % 10) * 9
+        # Add gender with citizenship
+        if gender is None:
+            gender = random.choice(self.Genders().get_list())
+        if citizenship is None:
+            citizenship = random.choice(self.Citizenships().get_list())
+        # find gender.codes 和 citizenship.codes intersection
+        gender_code = list(set(gender.codes).intersection(citizenship.codes))[0]
+        id_result += str(gender_code)
+        check_sum += gender_code * 8
+        # Add naturalization
+        if naturalization is None:
+            naturalization = random.choice(self.Naturalizations().get_list())
+        id_result += str(naturalization.index)
+        check_sum += naturalization.index * 7
+        # Add random numbers
+        for i in range(6):
+            num = random.randint(0, 9)
+            id_result += str(num)
+            check_sum += num * (6 - i)
+        # Add check code
+        remainder = check_sum % 10
+        check_code = 10 - remainder if remainder != 0 else 0
+        id_result += str(check_code)
+        return id_result
