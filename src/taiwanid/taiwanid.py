@@ -53,17 +53,18 @@ class TaiwanID:
 
     class Genders:
         class Gender:
-            def __init__(self, name: str, codes: list[int]):
+            def __init__(self, index: int, name: str, codes: list[int]):
+                index: int = index
                 self.name: str = name
                 self.codes: list[int] = codes
 
         class Male(Gender):
             def __init__(self):
-                super().__init__('Male', [1, 8])
+                super().__init__(0, 'Male', [1, 8])
 
         class Female(Gender):
             def __init__(self):
-                super().__init__('Female', [2, 9])
+                super().__init__(1, 'Female', [2, 9])
 
         def get_list(self) -> list[Gender]:
             return [
@@ -79,17 +80,17 @@ class TaiwanID:
 
     class Citizenships:
         class Citizenship:
-            def __init__(self, name: str, codes: list[int]):
+            def __init__(self, index: int, name: str, codes: list[int]):
                 self.name: str = name
                 self.codes: list[int] = codes
 
         class Native(Citizenship):
             def __init__(self):
-                super().__init__('Native', [1, 2])
+                super().__init__(0, 'Native', [1, 2])
 
         class Foreign(Citizenship):
             def __init__(self):
-                super().__init__('Foreign', [8, 9])
+                super().__init__(1, 'Foreign', [8, 9])
 
         def get_list(self) -> list[Citizenship]:
             return [
@@ -105,7 +106,8 @@ class TaiwanID:
 
     class Naturalizations:
         class Naturalization:
-            def __init__(self, name: str, description: str, codes: list[int], national: bool):
+            def __init__(self, index: int, name: str, description: str, codes: list[int], national: bool):
+                self.index: int = index
                 self.name: str = name
                 self.description: str = description
                 self.codes: list[int] = codes
@@ -113,40 +115,41 @@ class TaiwanID:
 
         class National(Naturalization):
             def __init__(self):
-                super().__init__('National', 'Born in Taiwan', [0, 1, 2, 3, 4, 5], True)
+                super().__init__(0, 'National', 'Born in Taiwan', [0, 1, 2, 3, 4, 5], True)
 
         class NationalFormerlyForeign(Naturalization):
             def __init__(self):
-                super().__init__('National(naturalization)', 'formerly foreign', [6], True)
+                super().__init__(1, 'National(naturalization)', 'formerly foreign', [6], True)
 
         class NationalFormerlyWithoutHouseholdRegistration(Naturalization):
             def __init__(self):
-                super().__init__('Nationals(naturalization)', 'formerly without household registration', [7], True)
+                super().__init__(2, 'Nationals(naturalization)', 'formerly without household registration', [7], True)
 
         class NationalFormerlyHongKongOrMacaoResident(Naturalization):
             def __init__(self):
-                super().__init__('Nationals(naturalization)', 'formerly Hong Kong or Macao resident', [8], True)
+                super().__init__(3, 'Nationals(naturalization)', 'formerly Hong Kong or Macao resident', [8], True)
 
         class NationalFormerlyChinaResident(Naturalization):
             def __init__(self):
-                super().__init__('Nationals(naturalization)', 'formerly China resident', [9], True)
+                super().__init__(4, 'Nationals(naturalization)', 'formerly China resident', [9], True)
 
         class NonNational(Naturalization):
             def __init__(self):
-                super().__init__('Non-national', '', [], False)
+                super().__init__(5, 'Non-national', '', [], False)
 
     class IDTypes:
         class IDType:
-            def __init__(self, name: str):
+            def __init__(self, index: int, name: str):
+                self.index: int = index
                 self.name: str = name
 
         class NationalID(IDType):
             def __init__(self):
-                super().__init__('National ID')
+                super().__init__(0, 'National ID')
 
         class ResidentCertificate(IDType):
             def __init__(self):
-                super().__init__('Resident Certificate')
+                super().__init__(1, 'Resident Certificate')
 
     class ValidateStatus(Enum):
         SUCCESS = 'Success'
