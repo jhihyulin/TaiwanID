@@ -152,7 +152,7 @@ class TaiwanID:
             index = 5
             name = 'Non-national'
             description = ''
-            codes = []
+            codes = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
         def get_list(self) -> list[Naturalization]:
             return [
@@ -290,15 +290,22 @@ class TaiwanID:
             gender = random.choice(self.Genders().get_list())
         if citizenship is None:
             citizenship = random.choice(self.Citizenships().get_list())
+        # if citizenship is foreign, can not set naturalization parameter except NonNational
+        if citizenship == self.Citizenships.Foreign and (naturalization is not None and naturalization != self.Naturalizations.NonNational):
+            raise ValueError('Foreign citizenship can not set naturalization parameter except NonNational')
         # find gender.codes 和 citizenship.codes intersection
         gender_code = list(set(gender.codes).intersection(citizenship.codes))[0]
         id_result += str(gender_code)
         check_sum += gender_code * 8
         # Add naturalization
-        if naturalization is None:
+        if citizenship == self.Citizenships.Foreign:
+            # if citizenship is foreign, naturalization must be NonNational
+            naturalization = self.Naturalizations.NonNational
+        elif naturalization is None:
             naturalization = random.choice(self.Naturalizations().get_list())
-        id_result += str(naturalization.index)
-        check_sum += naturalization.index * 7
+        naturalization_code = random.choice(naturalization.codes)
+        id_result += str(naturalization_code)
+        check_sum += naturalization_code * 7
         # Add random numbers
         for i in range(6):
             num = random.randint(0, 9)
