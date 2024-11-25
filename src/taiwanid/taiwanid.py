@@ -55,7 +55,7 @@ class TaiwanID:
     class Genders:
         class Gender:
             def __init__(self, index: int, name: str, codes: list[int]):
-                index: int = index
+                self.index: int = index
                 self.name: str = name
                 self.codes: list[int] = codes
 
