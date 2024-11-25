@@ -82,6 +82,7 @@ class TaiwanID:
     class Citizenships:
         class Citizenship:
             def __init__(self, index: int, name: str, codes: list[int]):
+                self.index: int = index
                 self.name: str = name
                 self.codes: list[int] = codes
 
