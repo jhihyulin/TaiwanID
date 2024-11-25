@@ -59,18 +59,20 @@ class TaiwanID:
                 self.name: str = name
                 self.codes: list[int] = codes
 
-        class Male(Gender):
-            def __init__(self):
-                super().__init__(0, 'Male', [1, 8])
+        class Male:
+            index = 0
+            name = 'Male'
+            codes = [1, 8]
 
-        class Female(Gender):
-            def __init__(self):
-                super().__init__(1, 'Female', [2, 9])
+        class Female:
+            index = 1
+            name = 'Female'
+            codes = [2, 9]
 
         def get_list(self) -> list[Gender]:
             return [
-                self.Male(),
-                self.Female()
+                self.Male,
+                self.Female
             ]
 
         def get_code_list(self) -> list[int]:
@@ -86,18 +88,20 @@ class TaiwanID:
                 self.name: str = name
                 self.codes: list[int] = codes
 
-        class Native(Citizenship):
-            def __init__(self):
-                super().__init__(0, 'Native', [1, 2])
+        class Native:
+            index = 0
+            name = 'Native'
+            codes = [1, 2]
 
-        class Foreign(Citizenship):
-            def __init__(self):
-                super().__init__(1, 'Foreign', [8, 9])
+        class Foreign:
+            index = 1
+            name = 'Foreign'
+            codes = [8, 9]
 
         def get_list(self) -> list[Citizenship]:
             return [
-                self.Native(),
-                self.Foreign()
+                self.Native,
+                self.Foreign
             ]
 
         def get_code_list(self) -> list[int]:
@@ -113,40 +117,51 @@ class TaiwanID:
                 self.name: str = name
                 self.description: str = description
                 self.codes: list[int] = codes
-                self.national: bool = national
 
-        class National(Naturalization):
-            def __init__(self):
-                super().__init__(0, 'National', 'Born in Taiwan', [0, 1, 2, 3, 4, 5], True)
+        class National:
+            index = 0
+            name = 'National'
+            description = 'Born in Taiwan'
+            codes = [0, 1, 2, 3, 4, 5]
 
-        class NationalFormerlyForeign(Naturalization):
-            def __init__(self):
-                super().__init__(1, 'National(naturalization)', 'formerly foreign', [6], True)
+        class NationalFormerlyForeign:
+            index = 1
+            name = 'National'
+            description = 'formerly foreign'
+            codes = [6]
 
-        class NationalFormerlyWithoutHouseholdRegistration(Naturalization):
-            def __init__(self):
-                super().__init__(2, 'Nationals(naturalization)', 'formerly without household registration', [7], True)
+        class NationalFormerlyWithoutHouseholdRegistration:
+            index = 2
+            name = 'National'
+            description = 'formerly without household registration'
+            codes = [7]
 
-        class NationalFormerlyHongKongOrMacaoResident(Naturalization):
-            def __init__(self):
-                super().__init__(3, 'Nationals(naturalization)', 'formerly Hong Kong or Macao resident', [8], True)
+        class NationalFormerlyHongKongOrMacaoResident:
+            index = 3
+            name = 'National'
+            description = 'formerly Hong Kong or Macao resident'
+            codes = [8]
 
-        class NationalFormerlyChinaResident(Naturalization):
-            def __init__(self):
-                super().__init__(4, 'Nationals(naturalization)', 'formerly China resident', [9], True)
+        class NationalFormerlyChinaResident:
+            index = 4
+            name = 'National'
+            description = 'formerly China resident'
+            codes = [9]
 
-        class NonNational(Naturalization):
-            def __init__(self):
-                super().__init__(5, 'Non-national', '', [], False)
+        class NonNational:
+            index = 5
+            name = 'Non-national'
+            description = ''
+            codes = []
 
         def get_list(self) -> list[Naturalization]:
             return [
-                self.National(),
-                self.NationalFormerlyForeign(),
-                self.NationalFormerlyWithoutHouseholdRegistration(),
-                self.NationalFormerlyHongKongOrMacaoResident(),
-                self.NationalFormerlyChinaResident(),
-                self.NonNational()
+                self.National,
+                self.NationalFormerlyForeign,
+                self.NationalFormerlyWithoutHouseholdRegistration,
+                self.NationalFormerlyHongKongOrMacaoResident,
+                self.NationalFormerlyChinaResident,
+                self.NonNational
             ]
 
     class ValidateStatus(Enum):
