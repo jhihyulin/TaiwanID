@@ -239,7 +239,7 @@ class TaiwanID:
             self.citizenship: TaiwanID.Citizenships.Citizenship = None
             self.naturalization: TaiwanID.Naturalizations.Naturalization = None
 
-    def get_info(self, id: str) -> IDInfo:
+    def parse(self, id: str) -> IDInfo:
         '''
         Get the information of the ID number
         \nid: ID number
